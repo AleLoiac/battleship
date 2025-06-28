@@ -27,11 +27,23 @@ export class Gameboard {
       }
 
       for (let i = coordinateY; i < ship.length + coordinateY; i++) {
+        if (this.board[i][coordinateX] === "O") {
+          return "Invalid ship position, at least 1 square occupied by another ship";
+        }
+      }
+
+      for (let i = coordinateY; i < ship.length + coordinateY; i++) {
         this.board[i][coordinateX] = "O";
       }
     } else {
       if (coordinateX + ship.length > 10) {
         return "Ship ending out of boundaries, invalid placement";
+      }
+
+      for (let i = coordinateX; i < ship.length + coordinateX; i++) {
+        if (this.board[coordinateY][i] === "O") {
+          return "Invalid ship position, at least 1 square occupied by another ship";
+        }
       }
 
       for (let i = coordinateX; i < ship.length + coordinateX; i++) {

@@ -108,3 +108,23 @@ test("Place length 5 ship on square [5,8] vertically, partially out of boundarie
   );
   expect(gameboard.board[6][8]).toBe(null);
 });
+
+test("Length 1 ship placed over another length 1 ship", () => {
+  const ship1 = new Ship(1);
+  const ship2 = new Ship(1);
+
+  gameboard.placeShip(ship1, 0, 0);
+  expect(gameboard.placeShip(ship2, 0, 0)).toBe(
+    "Invalid ship position, at least 1 square occupied by another ship",
+  );
+});
+
+test("Length 5 ship crossing a length 3 ship", () => {
+  const ship1 = new Ship(3);
+  const ship2 = new Ship(5);
+
+  gameboard.placeShip(ship1, 3, 5);
+  expect(gameboard.placeShip(ship2, 2, 6, "vertical")).toBe(
+    "Invalid ship position, at least 1 square occupied by another ship",
+  );
+});
