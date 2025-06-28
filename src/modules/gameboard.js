@@ -11,7 +11,7 @@ export class Gameboard {
     }
   }
 
-  placeShip(ship, coordinateX, coordinateY, orientation) {
+  placeShip(ship, coordinateY, coordinateX, orientation = "horizontal") {
     if (
       coordinateX < 0 ||
       coordinateX > 9 ||
@@ -22,20 +22,20 @@ export class Gameboard {
     }
 
     if (orientation === "vertical") {
-      if (coordinateY + ship.length > 9) {
-        return "Ship ending out of boundaries, invalid placement";
-      }
-
-      for (let i = coordinateX; i < ship.length + coordinateX; i++) {
-        this.board[i][coordinateY] = "O";
-      }
-    } else {
-      if (coordinateX + ship.length > 9) {
+      if (coordinateY + ship.length > 10) {
         return "Ship ending out of boundaries, invalid placement";
       }
 
       for (let i = coordinateY; i < ship.length + coordinateY; i++) {
-        this.board[coordinateX][i] = "O";
+        this.board[i][coordinateX] = "O";
+      }
+    } else {
+      if (coordinateX + ship.length > 10) {
+        return "Ship ending out of boundaries, invalid placement";
+      }
+
+      for (let i = coordinateX; i < ship.length + coordinateX; i++) {
+        this.board[coordinateY][i] = "O";
       }
     }
   }

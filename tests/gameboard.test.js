@@ -55,7 +55,7 @@ test("Place length 4 ship on square [0,6], expect it to be on [0][6],[0][7],[0][
   expect(gameboard.board[0][9]).toBe("O");
 });
 
-test("Place length 4 ship on square [5,5], expect it to be on [5][5],[5][6],[5][7]", () => {
+test("Place length 3 ship on square [5,5], expect it to be on [5][5],[5][6],[5][7]", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(3);
 
@@ -75,16 +75,14 @@ test("Place length 1 ship out of boundaries", () => {
   );
 });
 
-test("Place length 4 ship on square [5,8], partially out of boundaries", () => {
+test("Place length 5 ship on square [5,8], partially out of boundaries", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(5);
 
-  gameboard.placeShip(ship, 5, 8);
-
-  expect(gameboard.board[5][8]).toBe(null);
   expect(gameboard.placeShip(ship, 5, 8)).toBe(
     "Ship ending out of boundaries, invalid placement",
   );
+  expect(gameboard.board[5][8]).toBe(null);
 });
 
 test("Place length 3 ship on square [0,0], with vertical orientation", () => {
@@ -98,7 +96,7 @@ test("Place length 3 ship on square [0,0], with vertical orientation", () => {
   expect(gameboard.board[2][0]).toBe("O");
 });
 
-test("Place length 4 ship on square [5,5] with vertical orientation, expect it to be on [5][5],[6][5],[7][5]", () => {
+test("Place length 3 ship on square [5,5] with vertical orientation, expect it to be on [5][5],[6][5],[7][5]", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(3);
 
@@ -109,14 +107,12 @@ test("Place length 4 ship on square [5,5] with vertical orientation, expect it t
   expect(gameboard.board[7][5]).toBe("O");
 });
 
-test("Place length 4 ship on square [5,8] vertically, partially out of boundaries", () => {
+test("Place length 5 ship on square [5,8] vertically, partially out of boundaries", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(5);
 
-  gameboard.placeShip(ship, 5, 8, "vertical");
-
-  expect(gameboard.board[5][8]).toBe(null);
-  expect(gameboard.placeShip(ship, 5, 8)).toBe(
+  expect(gameboard.placeShip(ship, 6, 8)).toBe(
     "Ship ending out of boundaries, invalid placement",
   );
+  expect(gameboard.board[6][8]).toBe(null);
 });
