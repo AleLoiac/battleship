@@ -1,3 +1,5 @@
+import { Ship } from "./ship";
+
 export class Gameboard {
   constructor() {
     this.board = [];
@@ -9,6 +11,8 @@ export class Gameboard {
         this.board[i][j] = null;
       }
     }
+
+    this.fleet = new Map();
   }
 
   placeShip(ship, coordinateY, coordinateX, orientation = "horizontal") {
@@ -34,6 +38,7 @@ export class Gameboard {
 
       for (let i = coordinateY; i < ship.length + coordinateY; i++) {
         this.board[i][coordinateX] = "O";
+        this.fleet.set(this.#arrayToKey([i, coordinateX]), ship);
       }
     } else {
       if (coordinateX + ship.length > 10) {
@@ -48,7 +53,40 @@ export class Gameboard {
 
       for (let i = coordinateX; i < ship.length + coordinateX; i++) {
         this.board[coordinateY][i] = "O";
+        this.fleet.set(this.#arrayToKey([coordinateY, i]), ship);
       }
     }
+  }
+
+  receiveAttack(coordinateY, coordinateX) {
+    if (
+      coordinateX < 0 ||
+      coordinateX > 9 ||
+      coordinateY < 0 ||
+      coordinateY > 9
+    ) {
+      return "Attack out of bounds, invalid attack";
+    }
+
+    if (
+      this.board[coordinateY][coordinateX] === "X" ||
+      this.board[coordinateY][coordinateX] === "@"
+    ) {
+      return "Invalid attack, cell already attacked";
+    } else if (this.board[coordinateY][coordinateX] === "O") {
+      this.board[coordinateY][coordinateX] = "@";
+
+      const damagedShip = this.fleet.get(
+        this.#arrayToKey([[coordinateY], [coordinateX]]),
+      );
+
+      damagedShip.hit();
+    } else {
+      this.board[coordinateY][coordinateX] = "X";
+    }
+  }
+
+  #arrayToKey([x, y]) {
+    return `${x},${y}`;
   }
 }

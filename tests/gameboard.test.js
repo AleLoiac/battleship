@@ -128,3 +128,82 @@ test("Length 5 ship crossing a length 3 ship", () => {
     "Invalid ship position, at least 1 square occupied by another ship",
   );
 });
+
+test("Receive attack on [7,7] coordinates", () => {
+  gameboard.receiveAttack(0, 0);
+  gameboard.receiveAttack(7, 7);
+
+  expect(gameboard.board[0][0]).toBe("X");
+  expect(gameboard.board[7][7]).toBe("X");
+});
+
+test("Receive attack out of bounds", () => {
+  expect(gameboard.receiveAttack(10, 10)).toBe(
+    "Attack out of bounds, invalid attack",
+  );
+});
+
+test("Receive attack on ship, mark ship section", () => {
+  const ship = new Ship(3);
+
+  gameboard.placeShip(ship, 6, 7, "vertical");
+  gameboard.receiveAttack(7, 7);
+
+  expect(gameboard.board[6][7]).toBe("O");
+  expect(gameboard.board[7][7]).toBe("@");
+  expect(gameboard.board[8][7]).toBe("O");
+});
+
+test("Attack cell that was attacked before", () => {
+  gameboard.receiveAttack(0, 0);
+
+  expect(gameboard.receiveAttack(0, 0)).toBe(
+    "Invalid attack, cell already attacked",
+  );
+});
+
+test("Attack ship cell that was attacked before", () => {
+  const ship = new Ship(3);
+
+  gameboard.placeShip(ship, 0, 0, "vertical");
+  gameboard.receiveAttack(0, 0);
+
+  expect(gameboard.receiveAttack(0, 0)).toBe(
+    "Invalid attack, cell already attacked",
+  );
+});
+
+test("Create ship instance and register it in the gameboard's Map", () => {
+  const ship = new Ship(2);
+
+  gameboard.placeShip(ship, 0, 0);
+  expect(gameboard.fleet.get("0,0")).toEqual(ship);
+  expect(gameboard.fleet.get("0,1")).toEqual(ship);
+});
+
+test("Ships life decreased by 1 after being attacked", () => {
+  const ship = new Ship(2);
+
+  gameboard.placeShip(ship, 0, 0);
+  gameboard.receiveAttack(0, 0);
+
+  expect(gameboard.fleet.get("0,0")).toEqual({
+    length: 2,
+    hitCounter: 1,
+    sunk: false,
+  });
+});
+
+test("Ship is sunk after being attacked 2 times", () => {
+  const ship = new Ship(2);
+
+  gameboard.placeShip(ship, 0, 0, "vertical");
+  gameboard.receiveAttack(0, 0);
+  gameboard.receiveAttack(1, 0);
+
+  expect(gameboard.fleet.get("0,0")).toEqual({
+    length: 2,
+    hitCounter: 2,
+    sunk: true,
+  });
+});
