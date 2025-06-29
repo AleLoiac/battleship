@@ -13,6 +13,7 @@ export class Gameboard {
     }
 
     this.fleet = new Map();
+    this.shipCounter = 0;
   }
 
   placeShip(ship, coordinateY, coordinateX, orientation = "horizontal") {
@@ -40,6 +41,7 @@ export class Gameboard {
         this.board[i][coordinateX] = "O";
         this.fleet.set(this.#arrayToKey([i, coordinateX]), ship);
       }
+      this.shipCounter++;
     } else {
       if (coordinateX + ship.length > 10) {
         return "Ship ending out of boundaries, invalid placement";
@@ -55,6 +57,7 @@ export class Gameboard {
         this.board[coordinateY][i] = "O";
         this.fleet.set(this.#arrayToKey([coordinateY, i]), ship);
       }
+      this.shipCounter++;
     }
   }
 
@@ -81,6 +84,14 @@ export class Gameboard {
       );
 
       damagedShip.hit();
+
+      if (damagedShip.sunk === true) {
+        this.shipCounter--;
+
+        if (this.shipCounter === 0) {
+          return "All ship sunk";
+        }
+      }
     } else {
       this.board[coordinateY][coordinateX] = "X";
     }

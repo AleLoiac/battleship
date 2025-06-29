@@ -207,3 +207,16 @@ test("Ship is sunk after being attacked 2 times", () => {
     sunk: true,
   });
 });
+
+test("Gameboard reports all its ship has been sunk", () => {
+  const ship1 = new Ship(2);
+  const ship2 = new Ship(1);
+
+  gameboard.placeShip(ship1, 1, 0, "vertical");
+  gameboard.placeShip(ship2, 0, 3);
+  gameboard.receiveAttack(1, 0);
+  gameboard.receiveAttack(2, 0);
+
+  expect(gameboard.receiveAttack(0, 3)).toBe("All ship sunk");
+  expect(gameboard.shipCounter).toBe(0);
+});
