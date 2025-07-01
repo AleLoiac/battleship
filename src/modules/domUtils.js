@@ -1,16 +1,25 @@
 const container = document.querySelector(".container");
 
 export function generatePlayerBoard(player) {
-  const title = document.createElement("h2");
-  title.textContent = "Player";
-  container.appendChild(title);
+  let board;
 
-  const board = document.createElement("div");
-  board.classList.add("board");
-  board.classList.add("player");
-  board.setAttribute("data-player", `${player.type}`);
+  if (!document.querySelector(".board.player")) {
+    const title = document.createElement("h2");
 
-  container.appendChild(board);
+    title.textContent = "Player";
+    container.appendChild(title);
+
+    board = document.createElement("div");
+
+    board.classList.add("board");
+    board.classList.add("player");
+    board.setAttribute("data-player", `${player.type}`);
+
+    container.appendChild(board);
+  } else {
+    board = document.querySelector(".board.player");
+    board.textContent = "";
+  }
 
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
@@ -24,21 +33,34 @@ export function generatePlayerBoard(player) {
       if (fleetCell) {
         cellDiv.classList.add("ship");
       }
+      if (player.gameboard.board[i][j] === "X") {
+        cellDiv.classList.add("hit");
+      } else if (player.gameboard.board[i][j] === "@") {
+        cellDiv.classList.add("hit");
+        cellDiv.classList.add("ship");
+      }
     }
   }
 }
 
 export function generateEnemyBoard(player) {
-  const title = document.createElement("h2");
-  title.textContent = "Enemy";
-  container.appendChild(title);
+  let board;
 
-  const board = document.createElement("div");
-  board.classList.add("board");
-  board.classList.add("enemy");
-  board.setAttribute("data-player", `${player.type}`);
+  if (!document.querySelector(".board.enemy")) {
+    const title = document.createElement("h2");
+    title.textContent = "Enemy";
+    container.appendChild(title);
 
-  container.appendChild(board);
+    board = document.createElement("div");
+    board.classList.add("board");
+    board.classList.add("enemy");
+    board.setAttribute("data-player", `${player.type}`);
+
+    container.appendChild(board);
+  } else {
+    board = document.querySelector(".board.enemy");
+    board.textContent = "";
+  }
 
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
@@ -47,6 +69,13 @@ export function generateEnemyBoard(player) {
       cellDiv.classList.add("cell");
       cellDiv.setAttribute("data-coordinates", `${i},${j}`);
       board.appendChild(cellDiv);
+
+      if (player.gameboard.board[i][j] === "X") {
+        cellDiv.classList.add("hit");
+      } else if (player.gameboard.board[i][j] === "@") {
+        cellDiv.classList.add("hit");
+        cellDiv.classList.add("ship");
+      }
     }
   }
 }
