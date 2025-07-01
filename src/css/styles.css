@@ -7,10 +7,59 @@
 }
 
 .board .cell {
-  cursor: crosshair;
   width: 30px;
   height: 30px;
   border: 1px solid grey;
+}
+
+.player .cell,
+.enemy .cell {
+  position: relative;
+}
+
+.enemy .cell:not(.hit)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: grey;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.player .hit::before,
+.player .hit::after,
+.enemy .hit::before,
+.enemy .hit::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  background: black;
+  transform: translate(-50%, -50%) rotate(45deg);
+  pointer-events: none;
+}
+
+.player .hit::after,
+.enemy .hit::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.board .cell.ship.hit {
+  background-color: lightcoral;
+}
+
+.enemy .cell:not(.hit):hover {
+  background-color: lightgrey;
+}
+
+.enemy .cell:not(.hit):hover::after {
+  opacity: 1;
 }
 
 .board .ship {
