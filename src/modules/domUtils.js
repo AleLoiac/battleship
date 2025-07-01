@@ -79,3 +79,25 @@ export function generateEnemyBoard(player) {
     }
   }
 }
+
+function renderAttack(e, game) {
+  const target = e.target;
+
+  if (target.classList.contains("hit")) {
+    return console.log("Cell already hit");
+  }
+
+  if (
+    target.parentNode.classList.contains("enemy") &&
+    target.classList.contains("cell")
+  ) {
+    const coordinates = target.dataset.coordinates;
+    game.registerAttack(coordinates[0], coordinates[2]);
+  }
+}
+
+export function listenForAttacks(game) {
+  container.addEventListener("click", (e) => {
+    renderAttack(e, game);
+  });
+}
