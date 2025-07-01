@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 300px;
-  margin: 0 auto 10px auto;
+  margin: 0 auto;
   outline: 1px solid grey;
 }
 
@@ -15,4 +15,8 @@
 
 .board .ship {
   background-color: aquamarine;
+}
+
+h2 {
+  text-align: center;
 }
