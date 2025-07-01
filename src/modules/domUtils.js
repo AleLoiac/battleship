@@ -8,7 +8,7 @@ export function generatePlayerBoard(player) {
   const board = document.createElement("div");
   board.classList.add("board");
   board.classList.add("player");
-  board.setAttribute("data", `"player": ${player.type}`);
+  board.setAttribute("data-player", `${player.type}`);
 
   container.appendChild(board);
 
@@ -17,7 +17,7 @@ export function generatePlayerBoard(player) {
       const cellDiv = document.createElement("div");
 
       cellDiv.classList.add("cell");
-      cellDiv.setAttribute("data", `"coordinates": ${i},${j}`);
+      cellDiv.setAttribute("data-coordinates", `${i},${j}`);
       board.appendChild(cellDiv);
 
       const fleetCell = player.gameboard.fleet.get(`${i},${j}`);
@@ -36,7 +36,7 @@ export function generateEnemyBoard(player) {
   const board = document.createElement("div");
   board.classList.add("board");
   board.classList.add("enemy");
-  board.setAttribute("data", `"player": ${player.type}`);
+  board.setAttribute("data-player", `${player.type}`);
 
   container.appendChild(board);
 
@@ -45,7 +45,7 @@ export function generateEnemyBoard(player) {
       const cellDiv = document.createElement("div");
 
       cellDiv.classList.add("cell");
-      cellDiv.setAttribute("data", `"coordinates": ${i},${j}`);
+      cellDiv.setAttribute("data-coordinates", `${i},${j}`);
       board.appendChild(cellDiv);
     }
   }
