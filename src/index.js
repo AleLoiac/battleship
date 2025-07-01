@@ -1,4 +1,4 @@
-import { generateBoard } from "./modules/domUtils";
+import { generateEnemyBoard, generatePlayerBoard } from "./modules/domUtils";
 import { Player } from "./modules/player";
 import { Ship } from "./modules/ship";
 import "./css/styles.css";
@@ -27,5 +27,5 @@ player2.gameboard.placeShip(ship6, 0, 3);
 player2.gameboard.placeShip(ship7, 3, 2);
 player2.gameboard.placeShip(ship8, 7, 6, "vertical");
 
-generateBoard(player1);
-generateBoard(player2);
+generatePlayerBoard(player1);
+generateEnemyBoard(player2);
