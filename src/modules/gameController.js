@@ -1,4 +1,8 @@
-import { generateEnemyBoard, generatePlayerBoard } from "./domUtils";
+import {
+  declareWinner,
+  generateEnemyBoard,
+  generatePlayerBoard,
+} from "./domUtils";
 import { Player } from "./player";
 import { Ship } from "./ship";
 
@@ -24,6 +28,8 @@ export class Game {
         amount: 1,
       },
     };
+    this.guessBoard = [];
+    this.#computerAttackBoard();
   }
 
   initialPlacement() {
@@ -82,9 +88,50 @@ export class Game {
     this.player2.gameboard.receiveAttack(coordinateY, coordinateX);
 
     generateEnemyBoard(this.player2);
+
+    if (this.#isGameFinished()) {
+      if (this.player1.gameboard.shipCounter === 0) {
+        declareWinner(this.player2.type);
+        return;
+      }
+
+      declareWinner(this.player1.type);
+      return;
+    }
+
+    this.#randomAttack();
+    generatePlayerBoard(this.player1);
+
+    if (this.#isGameFinished()) {
+      if (this.player1.gameboard.shipCounter === 0) {
+        declareWinner(this.player2.type);
+        return;
+      }
+
+      declareWinner(this.player1.type);
+      return;
+    }
   }
 
-  isFinished() {
+  #computerAttackBoard() {
+    this.guessBoard = [];
+
+    for (let j = 0; j < 10; j++) {
+      for (let k = 0; k < 10; k++) {
+        this.guessBoard.push([j, k]);
+      }
+    }
+  }
+
+  #randomAttack() {
+    const randomGuess = Math.floor(Math.random() * this.guessBoard.length);
+    const guess = this.guessBoard[randomGuess];
+    this.guessBoard.splice(randomGuess, 1);
+
+    this.player1.gameboard.receiveAttack(guess[0], guess[1]);
+  }
+
+  #isGameFinished() {
     if (
       this.player1.gameboard.shipCounter === 0 ||
       this.player2.gameboard.shipCounter === 0
