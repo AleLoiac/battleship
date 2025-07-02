@@ -101,3 +101,18 @@ export function listenForAttacks(game) {
     renderAttack(e, game);
   });
 }
+
+export function declareWinner(playerType) {
+  const newContainer = container.cloneNode(true);
+  container.replaceWith(newContainer);
+
+  const winTitle = document.createElement("h1");
+
+  if (playerType === "human") {
+    winTitle.textContent = "You Win!";
+    newContainer.appendChild(winTitle);
+  } else {
+    winTitle.textContent = "Computer Wins!";
+    newContainer.appendChild(winTitle);
+  }
+}
