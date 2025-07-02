@@ -50,7 +50,11 @@
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.board .cell.ship.hit {
+.enemy .cell.ship.hit {
+  background-color: lightseagreen;
+}
+
+.player .cell.ship.hit {
   background-color: lightcoral;
 }
 
@@ -66,6 +70,7 @@
   background-color: aquamarine;
 }
 
+h1,
 h2 {
   text-align: center;
 }
