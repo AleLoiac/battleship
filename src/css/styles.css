@@ -4,6 +4,10 @@ body {
   gap: 30px;
 }
 
+.container {
+  text-align: center;
+}
+
 .submarine,
 .destroyer,
 .battleship,
@@ -14,7 +18,7 @@ body {
 }
 
 .selected {
-  opacity: 0.6;
+  outline: 2px solid red;
 }
 
 .board {
@@ -117,4 +121,18 @@ p {
 h1,
 h2 {
   text-align: center;
+}
+
+.start {
+  cursor: pointer;
+  margin: 10px auto;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  background-color: aquamarine;
+}
+
+.start:active {
+  box-shadow: inset 3px 2px 3px rgb(80, 160, 130);
 }

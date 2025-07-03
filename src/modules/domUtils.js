@@ -197,3 +197,10 @@ function renderPlacedShip(e, game, selector) {
 
   if (result) console.log(result);
 }
+
+export function createStartBtn() {
+  const startBtn = document.createElement("button");
+  startBtn.textContent = "Start Game";
+  startBtn.classList.add("start");
+  container.appendChild(startBtn);
+}

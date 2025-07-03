@@ -8,7 +8,6 @@ import {
 } from "./modules/domUtils";
 
 const game = new Game();
-game.start();
-renderSampleShips();
+game.placementPhase();
 listenForPlacement(game);
 listenForAttacks(game);

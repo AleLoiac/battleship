@@ -1,7 +1,9 @@
 import {
+  createStartBtn,
   declareWinner,
   generateEnemyBoard,
   generatePlayerBoard,
+  renderSampleShips,
 } from "./domUtils";
 import { Player } from "./player";
 import { Ship } from "./ship";
@@ -57,10 +59,9 @@ export class Game {
     }
   }
 
-  start() {
-    this.randomPlacement(this.player2);
+  placementPhase() {
     generatePlayerBoard(this.player1);
-    generateEnemyBoard(this.player2);
+    renderSampleShips();
   }
 
   registerAttack(coordinateY, coordinateX) {
@@ -142,5 +143,14 @@ export class Game {
 
     shipType.amount--;
     generatePlayerBoard(this.player1);
+
+    for (let ship in this.ships) {
+      const shipData = this.ships[ship];
+
+      if (shipData.amount !== 0) {
+        return;
+      }
+    }
+    createStartBtn();
   }
 }
