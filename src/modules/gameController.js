@@ -12,7 +12,8 @@ export class Game {
   constructor() {
     this.player1 = new Player();
     this.player2 = new Player("computer");
-    this.ships = {
+
+    this.fleetComposition = {
       submarine: {
         length: 1,
         amount: 4,
@@ -30,13 +31,15 @@ export class Game {
         amount: 1,
       },
     };
+    this.player1Fleet = this.#createFleetState();
+    this.player2Fleet = this.#createFleetState();
     this.guessBoard = [];
     this.#computerAttackBoard();
   }
 
-  randomPlacement(player) {
-    for (let ship in this.ships) {
-      const shipData = this.ships[ship];
+  randomPlacement(player, fleetState) {
+    for (let ship in fleetState) {
+      const shipData = fleetState[ship];
 
       for (let i = 0; i < shipData.amount; i++) {
         const newShip = new Ship(shipData.length);
@@ -121,8 +124,17 @@ export class Game {
     return false;
   }
 
+  #createFleetState() {
+    const fleet = {};
+    for (const type in this.fleetComposition) {
+      const { length, amount } = this.fleetComposition[type];
+      fleet[type] = { length, amount };
+    }
+    return fleet;
+  }
+
   registerPlacement(selector, coordinateY, coordinateX) {
-    const shipType = this.ships[selector];
+    const shipType = this.player1Fleet[selector];
 
     if (shipType.amount === 0) {
       return "No, more ships of this type";
@@ -144,13 +156,18 @@ export class Game {
     shipType.amount--;
     generatePlayerBoard(this.player1);
 
-    for (let ship in this.ships) {
-      const shipData = this.ships[ship];
+    for (let ship in this.player1Fleet) {
+      const shipData = this.player1Fleet[ship];
 
       if (shipData.amount !== 0) {
         return;
       }
     }
-    createStartBtn();
+    createStartBtn(this);
+  }
+
+  startGame() {
+    this.randomPlacement(this.player2, this.player2Fleet);
+    generateEnemyBoard(this.player2);
   }
 }

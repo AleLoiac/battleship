@@ -97,7 +97,9 @@ function renderAttack(e, game) {
 }
 
 export function listenForAttacks(game) {
-  container.addEventListener("click", (e) => {
+  const enemyBoard = document.querySelector(".enemy.board");
+
+  enemyBoard.addEventListener("click", (e) => {
     renderAttack(e, game);
   });
 }
@@ -198,9 +200,23 @@ function renderPlacedShip(e, game, selector) {
   if (result) console.log(result);
 }
 
-export function createStartBtn() {
+export function createStartBtn(game) {
   const startBtn = document.createElement("button");
   startBtn.textContent = "Start Game";
   startBtn.classList.add("start");
   container.appendChild(startBtn);
+
+  listenForStart(game);
+}
+
+function listenForStart(game) {
+  const startBtn = document.querySelector(".start");
+
+  startBtn.addEventListener("click", () => {
+    const startBtn = document.querySelector("button");
+    startBtn.remove();
+
+    game.startGame();
+    listenForAttacks(game);
+  });
 }
