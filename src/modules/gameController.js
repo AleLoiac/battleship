@@ -32,54 +32,33 @@ export class Game {
     this.#computerAttackBoard();
   }
 
-  initialPlacement() {
-    const playerSubmarine1 = new Ship(1);
-    const playerSubmarine2 = new Ship(1);
-    const playerSubmarine3 = new Ship(1);
-    const playerSubmarine4 = new Ship(1);
-    const playerDestroyer1 = new Ship(2);
-    const playerDestroyer2 = new Ship(2);
-    const playerDestroyer3 = new Ship(2);
-    const playerBattleship1 = new Ship(3);
-    const playerBattleship2 = new Ship(3);
-    const playerCarrier1 = new Ship(4);
+  randomPlacement(player) {
+    for (let ship in this.ships) {
+      const shipData = this.ships[ship];
 
-    const enemySubmarine1 = new Ship(1);
-    const enemySubmarine2 = new Ship(1);
-    const enemySubmarine3 = new Ship(1);
-    const enemySubmarine4 = new Ship(1);
-    const enemyDestroyer1 = new Ship(2);
-    const enemyDestroyer2 = new Ship(2);
-    const enemyDestroyer3 = new Ship(2);
-    const enemyBattleship1 = new Ship(3);
-    const enemyBattleship2 = new Ship(3);
-    const enemyCarrier1 = new Ship(4);
+      for (let i = 0; i < shipData.amount; i++) {
+        const newShip = new Ship(shipData.length);
+        const orientation = ["horizontal", "vertical"];
+        const zeroOrOne = Math.round(Math.random());
+        const y = Math.floor(Math.random() * 10);
+        const x = Math.floor(Math.random() * 10);
 
-    this.player1.gameboard.placeShip(playerSubmarine1, 0, 0);
-    this.player1.gameboard.placeShip(playerSubmarine2, 2, 1);
-    this.player1.gameboard.placeShip(playerSubmarine3, 4, 3);
-    this.player1.gameboard.placeShip(playerSubmarine4, 5, 2);
-    this.player1.gameboard.placeShip(playerDestroyer1, 0, 2, "vertical");
-    this.player1.gameboard.placeShip(playerDestroyer2, 2, 5, "vertical");
-    this.player1.gameboard.placeShip(playerDestroyer3, 5, 7);
-    this.player1.gameboard.placeShip(playerBattleship1, 7, 0);
-    this.player1.gameboard.placeShip(playerBattleship2, 9, 1);
-    this.player1.gameboard.placeShip(playerCarrier1, 6, 5, "vertical");
+        const errorLog = player.gameboard.placeShip(
+          newShip,
+          y,
+          x,
+          orientation[zeroOrOne],
+        );
 
-    this.player2.gameboard.placeShip(enemySubmarine1, 1, 1);
-    this.player2.gameboard.placeShip(enemySubmarine2, 3, 2);
-    this.player2.gameboard.placeShip(enemySubmarine3, 5, 3);
-    this.player2.gameboard.placeShip(enemySubmarine4, 7, 4);
-    this.player2.gameboard.placeShip(enemyDestroyer1, 0, 6, "vertical");
-    this.player2.gameboard.placeShip(enemyDestroyer2, 2, 8, "vertical");
-    this.player2.gameboard.placeShip(enemyDestroyer3, 6, 7);
-    this.player2.gameboard.placeShip(enemyBattleship1, 8, 0);
-    this.player2.gameboard.placeShip(enemyBattleship2, 9, 3);
-    this.player2.gameboard.placeShip(enemyCarrier1, 0, 3, "vertical");
+        if (errorLog) {
+          i--;
+        }
+      }
+    }
   }
 
   start() {
-    // this.initialPlacement();
+    this.randomPlacement(this.player2);
     generatePlayerBoard(this.player1);
     generateEnemyBoard(this.player2);
   }
