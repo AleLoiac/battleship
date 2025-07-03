@@ -1,9 +1,46 @@
+body {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.submarine,
+.destroyer,
+.battleship,
+.carrier {
+  cursor: pointer;
+  display: flex;
+  width: fit-content;
+}
+
+.selected {
+  opacity: 0.6;
+}
+
 .board {
   display: flex;
   flex-wrap: wrap;
   width: 300px;
   margin: 0 auto;
   outline: 1px solid grey;
+}
+
+.sidebar .cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid grey;
+  outline: 1px solid grey;
+}
+
+.ships {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+p {
+  margin: 0;
 }
 
 .board .cell {
@@ -66,7 +103,8 @@
   opacity: 1;
 }
 
-.board .ship {
+.board .ship,
+.sidebar .cell {
   background-color: aquamarine;
 }
 

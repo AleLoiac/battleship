@@ -79,7 +79,7 @@ export class Game {
   }
 
   start() {
-    this.initialPlacement();
+    // this.initialPlacement();
     generatePlayerBoard(this.player1);
     generateEnemyBoard(this.player2);
   }
@@ -139,5 +139,29 @@ export class Game {
       return true;
     }
     return false;
+  }
+
+  registerPlacement(selector, coordinateY, coordinateX) {
+    const shipType = this.ships[selector];
+
+    if (shipType.amount === 0) {
+      return "No, more ships of this type";
+    }
+
+    const l = shipType.length;
+    const ship = new Ship(l);
+
+    const errorLog = this.player1.gameboard.placeShip(
+      ship,
+      coordinateY,
+      coordinateX,
+    );
+
+    if (errorLog) {
+      return errorLog;
+    }
+
+    shipType.amount--;
+    generatePlayerBoard(this.player1);
   }
 }

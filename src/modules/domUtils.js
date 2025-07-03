@@ -116,3 +116,84 @@ export function declareWinner(playerType) {
     newContainer.appendChild(winTitle);
   }
 }
+
+const submarine = document.querySelector(".submarine");
+const destroyer = document.querySelector(".destroyer");
+const battleship = document.querySelector(".battleship");
+const carrier = document.querySelector(".carrier");
+
+export function renderSampleShips() {
+  for (let i = 0; i < 1; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    submarine.appendChild(cell);
+  }
+  for (let i = 0; i < 2; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    destroyer.appendChild(cell);
+  }
+  for (let i = 0; i < 3; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    battleship.appendChild(cell);
+  }
+  for (let i = 0; i < 4; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    carrier.appendChild(cell);
+  }
+}
+
+export function listenForPlacement(game) {
+  const playerBoard = document.querySelector(".player");
+  const body = document.querySelector("body");
+  const shipButtons = document.querySelectorAll(".ship-button");
+
+  let selector = null;
+
+  shipButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const alreadySelected = button.classList.contains("selected");
+
+      shipButtons.forEach((btn) => btn.classList.remove("selected"));
+
+      if (!alreadySelected) {
+        button.classList.add("selected");
+        selector = button.dataset.ship;
+      } else {
+        selector = null;
+      }
+    });
+  });
+
+  body.addEventListener("click", () => {
+    selector = null;
+    shipButtons.forEach((btn) => btn.classList.remove("selected"));
+  });
+
+  playerBoard.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    if (selector) {
+      renderPlacedShip(e, game, selector);
+    }
+
+    selector = null;
+    shipButtons.forEach((btn) => btn.classList.remove("selected"));
+  });
+}
+
+function renderPlacedShip(e, game, selector) {
+  const target = e.target;
+
+  const coordinates = target.dataset.coordinates;
+  const y = parseInt(coordinates[0]);
+  const x = parseInt(coordinates[2]);
+
+  const result = game.registerPlacement(selector, y, x);
+
+  if (result) console.log(result);
+}
