@@ -133,7 +133,7 @@ export class Game {
     return fleet;
   }
 
-  registerPlacement(selector, coordinateY, coordinateX) {
+  registerPlacement(selector, coordinateY, coordinateX, orientation) {
     const shipType = this.player1Fleet[selector];
 
     if (shipType.amount === 0) {
@@ -147,6 +147,7 @@ export class Game {
       ship,
       coordinateY,
       coordinateX,
+      orientation,
     );
 
     if (errorLog) {

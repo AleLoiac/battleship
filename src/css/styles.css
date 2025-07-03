@@ -1,6 +1,7 @@
 body {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 30px;
 }
 
@@ -41,6 +42,18 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.orientation {
+  padding: 5px 0 4px 0;
+  cursor: pointer;
+  border: 1px solid grey;
+  outline: 1px solid grey;
+  background-color: aquamarine;
+}
+
+.orientation:active {
+  box-shadow: inset 3px 2px 3px rgb(40, 80, 70);
 }
 
 .sample {

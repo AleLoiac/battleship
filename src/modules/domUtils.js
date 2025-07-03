@@ -153,6 +153,7 @@ export function listenForPlacement(game) {
   const shipButtons = document.querySelectorAll(".ship-button");
 
   let selector = null;
+  listenForOrientation();
 
   shipButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
@@ -178,9 +179,11 @@ export function listenForPlacement(game) {
 
   playerBoard.addEventListener("click", (e) => {
     e.stopPropagation();
+    const orientationBtn = document.querySelector(".orientation");
+    const orientation = orientationBtn.dataset.orientation;
 
     if (selector) {
-      renderPlacedShip(e, game, selector);
+      renderPlacedShip(e, game, selector, orientation);
     }
 
     selector = null;
@@ -188,14 +191,14 @@ export function listenForPlacement(game) {
   });
 }
 
-function renderPlacedShip(e, game, selector) {
+function renderPlacedShip(e, game, selector, orientation) {
   const target = e.target;
 
   const coordinates = target.dataset.coordinates;
   const y = parseInt(coordinates[0]);
   const x = parseInt(coordinates[2]);
 
-  const result = game.registerPlacement(selector, y, x);
+  const result = game.registerPlacement(selector, y, x, orientation);
 
   if (result) console.log(result);
 }
@@ -218,5 +221,21 @@ function listenForStart(game) {
 
     game.startGame();
     listenForAttacks(game);
+  });
+}
+
+function listenForOrientation() {
+  const orientationBtn = document.querySelector(".orientation");
+
+  orientationBtn.addEventListener("click", () => {
+    orientationBtn.textContent =
+      orientationBtn.textContent.trim() === "Horizontal"
+        ? "Vertical"
+        : "Horizontal";
+
+    orientationBtn.dataset.orientation =
+      orientationBtn.dataset.orientation === "horizontal"
+        ? "vertical"
+        : "horizontal";
   });
 }
