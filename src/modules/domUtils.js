@@ -217,6 +217,8 @@ function listenForStart(game) {
 
   startBtn.addEventListener("click", () => {
     const startBtn = document.querySelector("button");
+    const sidebar = document.querySelector(".sidebar");
+    sidebar.remove();
     startBtn.remove();
 
     game.startGame();
