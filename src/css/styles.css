@@ -1,3 +1,15 @@
+:root {
+  --color1: lightgreen;
+  --color2: grey;
+  --color3: red;
+  --color4: lightseagreen;
+  --color5: lightcoral;
+  --color6: lightgrey;
+  --color7: black;
+  --color8: rgb(80, 160, 130);
+  --color9: rgb(40, 80, 70);
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -19,7 +31,7 @@ body {
 }
 
 .selected {
-  outline: 2px solid red;
+  outline: 2px solid var(--color3);
 }
 
 .board {
@@ -27,14 +39,14 @@ body {
   flex-wrap: wrap;
   width: 300px;
   margin: 0 auto;
-  outline: 1px solid grey;
+  outline: 1px solid var(--color2);
 }
 
 .sidebar .cell {
   width: 30px;
   height: 30px;
-  border: 1px solid grey;
-  outline: 1px solid grey;
+  border: 1px solid var(--color2);
+  outline: 1px solid var(--color2);
 }
 
 .ships {
@@ -47,13 +59,13 @@ body {
 .orientation {
   padding: 5px 0 4px 0;
   cursor: pointer;
-  border: 1px solid grey;
-  outline: 1px solid grey;
-  background-color: aquamarine;
+  border: 1px solid var(--color2);
+  outline: 1px solid var(--color2);
+  background-color: var(--color1);
 }
 
 .orientation:active {
-  box-shadow: inset 3px 2px 3px rgb(40, 80, 70);
+  box-shadow: inset 3px 2px 3px var(--color9);
 }
 
 .sample {
@@ -69,7 +81,7 @@ p {
 .board .cell {
   width: 30px;
   height: 30px;
-  border: 1px solid grey;
+  border: 1px solid var(--color2);
 }
 
 .player .cell,
@@ -84,7 +96,7 @@ p {
   left: 50%;
   width: 5px;
   height: 5px;
-  background: grey;
+  background: var(--color2);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
@@ -100,7 +112,7 @@ p {
   left: 50%;
   width: 12px;
   height: 2px;
-  background: black;
+  background: var(--color7);
   transform: translate(-50%, -50%) rotate(45deg);
   pointer-events: none;
 }
@@ -111,15 +123,15 @@ p {
 }
 
 .enemy .cell.ship.hit {
-  background-color: lightseagreen;
+  background-color: var(--color4);
 }
 
 .player .cell.ship.hit {
-  background-color: lightcoral;
+  background-color: var(--color5);
 }
 
 .enemy .cell:not(.hit):hover {
-  background-color: lightgrey;
+  background-color: var(--color6);
 }
 
 .enemy .cell:not(.hit):hover::after {
@@ -128,7 +140,7 @@ p {
 
 .board .ship,
 .sidebar .cell {
-  background-color: aquamarine;
+  background-color: var(--color1);
 }
 
 h1,
@@ -138,14 +150,14 @@ h2 {
 
 .start {
   cursor: pointer;
-  margin: 10px auto;
+  margin-top: 30px;
   padding: 8px 20px;
-  border-radius: 20px;
   font-weight: bold;
   border: none;
-  background-color: aquamarine;
+  background-color: var(--color1);
+  outline: 2px solid var(--color2);
 }
 
 .start:active {
-  box-shadow: inset 3px 2px 3px rgb(80, 160, 130);
+  box-shadow: inset 3px 2px 3px var(--color8);
 }
