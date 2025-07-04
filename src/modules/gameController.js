@@ -35,6 +35,7 @@ export class Game {
     this.player2Fleet = this.#createFleetState();
     this.guessBoard = [];
     this.#computerAttackBoard();
+    this.computerNextAttacks = [];
   }
 
   randomPlacement(player, fleetState) {
@@ -82,7 +83,7 @@ export class Game {
       return;
     }
 
-    this.#randomAttack();
+    this.#attack();
     generatePlayerBoard(this.player1);
 
     if (this.#isGameFinished()) {
@@ -106,12 +107,71 @@ export class Game {
     }
   }
 
+  #attack() {
+    if (this.computerNextAttacks.length !== 0) {
+      this.#focusedAttack();
+    } else {
+      this.#randomAttack();
+    }
+  }
+
   #randomAttack() {
     const randomGuess = Math.floor(Math.random() * this.guessBoard.length);
     const guess = this.guessBoard[randomGuess];
     this.guessBoard.splice(randomGuess, 1);
 
+    if (this.player1.gameboard.board[guess[0]][guess[1]] === "O") {
+      this.#scheduleNextAttacks(guess[0], guess[1]);
+    }
+
     this.player1.gameboard.receiveAttack(guess[0], guess[1]);
+  }
+
+  #focusedAttack() {
+    const [y, x] = this.computerNextAttacks[0];
+
+    if (this.player1.gameboard.board[y][x] === "O") {
+      this.#scheduleNextAttacks(y, x);
+    }
+
+    this.player1.gameboard.receiveAttack(y, x);
+
+    const attack = this.computerNextAttacks.shift();
+
+    this.guessBoard = this.guessBoard.filter(
+      (coord) => coord[0] !== attack[0] || coord[1] !== attack[1],
+    );
+  }
+
+  #scheduleNextAttacks(coordinateY, coordinateX) {
+    const yCells = [1, -1, 0, 0];
+    const xCells = [0, 0, 1, -1];
+
+    for (let i = 0; i < 4; i++) {
+      const newY = coordinateY + yCells[i];
+      const newX = coordinateX + xCells[i];
+
+      if (!this.#checkValidCell(newY) || !this.#checkValidCell(newX)) continue;
+
+      const alreadyScheduled = this.computerNextAttacks.some(
+        (coord) => coord[0] === newY && coord[1] === newX,
+      );
+
+      const stillGuessable = this.guessBoard.some(
+        (coord) => coord[0] === newY && coord[1] === newX,
+      );
+
+      if (!alreadyScheduled && stillGuessable) {
+        this.computerNextAttacks.push([newY, newX]);
+      }
+    }
+  }
+
+  #checkValidCell(value) {
+    if (value < 0 || value > 9) {
+      return false;
+    }
+    return true;
   }
 
   #isGameFinished() {
